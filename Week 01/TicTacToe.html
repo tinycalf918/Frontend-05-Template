@@ -145,7 +145,7 @@
     function bestChoice(pattern, color){
         let point = willWin(pattern, color);
         if(point){
-            console.log(color === 2 ? '❌' : '⭕️','win',point)
+            // console.log(color === 2 ? '❌' : '⭕️','win',point)
             return {
                 point,
                 result: 1
@@ -156,11 +156,11 @@
         outer:for(let i = 0; i < 3; i++){
             for(let j = 0; j < 3; j++){
                 if(pattern[i * 3 + j]) continue;
-                console.log(color === 2 ? '❌' : '⭕️', i, j)
+                // console.log(color === 2 ? '❌' : '⭕️', i, j)
                 let tmp = clone(pattern);
                 tmp[i * 3 + j] = color;
                 let opp = bestChoice(tmp, 3 - color);
-                console.log('have result:', opp.result, 3-color === 2 ? '❌' : '⭕️',)
+                // console.log('have result:', opp.result, 3-color === 2 ? '❌' : '⭕️',)
                 if( - opp.result >= result){
                     point = [i, j];
                     result = - opp.result;
@@ -168,14 +168,14 @@
                 if(result == 1) break outer;
             }
         }
-        console.log(color === 2 ? '❌' : '⭕️','best return', point, result)
+        // console.log(color === 2 ? '❌' : '⭕️','best return', point, result)
         return {
             point,
             result: point ? result : 0
         }
     }
 
-    computerMove();
+    // computerMove();
     show();
 </script>
 </html>
