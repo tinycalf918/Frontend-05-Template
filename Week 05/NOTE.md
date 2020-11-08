@@ -1,1 +1,11 @@
 学习笔记
+1.proxy
+通过new Proxy（object）生成对象代理，可以对对象的操作如赋值等进行拦截处理
+实现reactive的原理主要就是在proxy的get方法中进行回调收集，在set方法中进行回调触发
+
+2.dragable
+mousemove事件注册在mousedown中进行，在mouseup中进行remove，比使用flag模式要好，避免了事件的不必要执行
+了解了document.createRange的用法，range的具体用法可以后续深入了解下
+了解了dom的textContent属性，可以获取内容长度
+cssom的api getBoundingClientRect 可以获取dom元素的位置及宽高等信息
+了解了selectstart事件的用法，可以监听页面选中来做相应的处理
