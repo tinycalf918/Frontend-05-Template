@@ -38,7 +38,6 @@ class Request{
             connection.on('data', (data) => {
                 console.log('data:::',data.toString());
                 parser.receive(data.toString());
-                resolve(parser.response);
                 if(parser.isFinished){
                     resolve(parser.response);
                     connection.end();
@@ -213,7 +212,6 @@ void async function(){
     });
 
     let response = await request.send();
-    console.log(parser)
+    console.log('=======',response)
     let dom = parser.parseHtml(response.body);
-    console.log('response:', dom)
 }()
