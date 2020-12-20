@@ -33,8 +33,24 @@
             if(!checkCombineRule(selectorRules[i], currentElement)){
                 return false;
             }
+            if(i > 0){
+                if(!checkParentRule(selectorRules[i], currentElement)){
+                    return false;
+                }
+            }
+            currentElement = currentElement.parentNode;
         }
         return true;
+    }
+
+    function checkParentRule(rule, element){
+        while(element.tagName !== 'BODY'){
+            if(checkCombineRule(rule, currentElement)){
+                return true;
+            }
+            element = element.parentNode;
+        }
+        return false;
     }
 
     function checkCombineRule(rule, element){
@@ -53,7 +69,7 @@
             }
             return true;
         }else{
-            return checkSimpleRule(simpleRules[i], currentElement);
+            return checkSimpleRule(rule, currentElement);
         }
         // let simpleRules = rule.split(/[>+~]/).reverse();
         // for(let i=0; i<simpleRules.length; i++){
@@ -78,6 +94,6 @@
         return rule === element.tagName.toLowerCase();
     }
 
-    console.log(match('div.c2  > div', document.getElementById('id-c2__c1')));
+    console.log(match('div.c2   div.c2__c1', document.getElementById('id-c2__c1')));
 </script>
 </html>
