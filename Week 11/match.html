@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div.c2.c3>p  div~div+p{
+            color: green;
+        }
+        div  .c1 .c2 >[att='123']{
+            color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div id='id-p' class='p'>
+        <div id='id-c1' class="c1" att='123'>c1 content</div>
+        <div id='id-c2' class="c2">
+            <div id='id-c2__c1' class="c2__c1">c2__c1 content</div>
+            <div id='id-c2__c2' class="c2__c2">c2__c2 content</div>
+        </div>
+    </div>
+</body>
+<script>
+    let currentElement;
+    function match(selector, element){
+        currentElement = element;
+        selector = selector.replaceAll(/\s*([>+~])\s*/g,'$1');
+        let selectorRules = selector.split(/\s+/).reverse();
+        console.log(selectorRules);
+        for(let i=0; i < selectorRules.length; i++){
+            if(!checkCombineRule(selectorRules[i], currentElement)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function checkCombineRule(rule, element){
+        if(rule.indexOf('>') > -1){
+            let subRules = rule.split('>').reverse();
+            for(let i=0; i < subRules.length; i++){
+                if(!checkSimpleRule(subRules[i], currentElement)) return false;
+                currentElement = element.parentNode;
+            }
+            return true;
+        }else if(rule.indexOf('+') > -1){
+            let subRules = rule.split('+').reverse();
+            for(let i=0; i < subRules.length; i++){
+                if(!checkSimpleRule(subRules[i], currentElement)) return false;
+                currentElement = element.previousElementSibling;
+            }
+            return true;
+        }else{
+            return checkSimpleRule(simpleRules[i], currentElement);
+        }
+        // let simpleRules = rule.split(/[>+~]/).reverse();
+        // for(let i=0; i<simpleRules.length; i++){
+        //     if(!checkSimpleRule(simpleRules[i], currentElement)) return false;
+        //     currentElement = element.parentNode;
+        // }
+        // currentElement = element.parentNode;
+        // return true;
+    }
+
+    function checkSimpleRule(rule, element){
+        if(!rule) return true;
+        if(rule.indexOf('.') > -1){
+            let prexRule = rule.split('.')[0];
+            let clsName = rule.split('.')[1];
+            return checkSimpleRule(prexRule,element) && element.className.split(/\s+/).includes(clsName);
+        }
+        if(rule.indexOf('#') > -1){
+            let id = rule.substring(1);
+            return checkSimpleRule(prexRule,element) && id === element.id;
+        }
+        return rule === element.tagName.toLowerCase();
+    }
+
+    console.log(match('div.c2  > div', document.getElementById('id-c2__c1')));
+</script>
+</html>
