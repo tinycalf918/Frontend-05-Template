@@ -83,7 +83,7 @@ export class Recognizer{
     }
     start(point, context){
         console.log("start", point.clientX, point.clientY)
-        context.startX = point.clientX, startY = point.clientY;
+        context.startX = point.clientX, context.startY = point.clientY;
         context.points = [{
             t: Date.now(),
             x: point.clientX,
@@ -99,7 +99,7 @@ export class Recognizer{
             context.isPan = false;
             context.isPress = true;
             context.handler = null;
-            this.dispatcher.dispath("press", {})
+            this.dispatcher.dispatch("press", {})
         }, 500)
     }
     
@@ -111,7 +111,7 @@ export class Recognizer{
             context.isPan = true;
             context.isPress = false;
             context.isVertical = Math.abs(dx) < Math.abs(dy);
-            this.dispatcher.dispath("panstart",{
+            this.dispatcher.dispatch("panstart",{
                 startX: context.startX,
                 startY: context.startY,
                 clientX: point.clientX,
@@ -137,13 +137,13 @@ export class Recognizer{
     
     end(point, context){
         if(context.isTap){
-            this.dispatcher.dispath("tap", {});
+            this.dispatcher.dispatch("tap", {});
             clearTimeout(context.handler);
         }
         
         if(context.isPress){
             console.log("pressend");
-            this.dispatcher.dispath("pressend", {});
+            this.dispatcher.dispatch("pressend", {});
         }
         context.points = context.points.filter(point => Date.now() - point.t < 500);
     
@@ -159,7 +159,7 @@ export class Recognizer{
     
         if(v > 1.5) {
             context.isFlick = true;
-            this.dispatcher.dispath("flick",{
+            this.dispatcher.dispatch("flick",{
                 startX: context.startX,
                 startY: context.startY,
                 clientX: point.clientX,
@@ -173,7 +173,7 @@ export class Recognizer{
         }
 
         if(context.isPan){
-            this.dispatcher.dispath("panend",{
+            this.dispatcher.dispatch("panend",{
                 startX: context.startX,
                 startY: context.startY,
                 clientX: point.clientX,
@@ -186,7 +186,7 @@ export class Recognizer{
     
     cancel(point,context){
         clearTimeout(context.handler);
-        this.dispatcher.dispath("cancel", {})
+        this.dispatcher.dispatch("cancel", {})
     }
 }
 
@@ -206,3 +206,4 @@ export class Dispatcher{
 export function enableGesture(element){
     new Listener(element, new Recognizer(new Dispatcher(element)))
 }
+

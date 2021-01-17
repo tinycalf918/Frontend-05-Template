@@ -81,7 +81,7 @@ let isPan = false, isTap = true, isPress = false;
 
 let start = (point, context) => {
     console.log("start", point.clientX, point.clientY)
-    context.startX = point.clientX, startY = point.clientY;
+    context.startX = point.clientX, context.startY = point.clientY;
     context.points = [{
         t: Date.now(),
         x: point.clientX,
