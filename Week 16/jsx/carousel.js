@@ -35,7 +35,7 @@ export class Carousel extends Component {
         this.root.addEventListener("start", event=>{
             timeline.pause();
             clearInterval(handler);
-            let progress = (Date.now() - t ) / 500;
+            let progress = (Date.now() - t ) / 1500;
             ax = ease(progress) * 500 - 500;
         })
 

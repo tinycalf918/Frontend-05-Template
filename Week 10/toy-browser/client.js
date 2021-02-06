@@ -1,7 +1,9 @@
 
 const net = require('net');
 const parser = require('./parser.js');
-console.log(parser)
+const render = require('./render.js');
+const images = require('images');
+
 class Request{
     constructor(options){
         this.method = options.method || 'GET';
